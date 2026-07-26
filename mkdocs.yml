@@ -1,0 +1,18 @@
+site_name: RBT Practice Review Workflow
+site_description: Independent documentation for reviewing RBT practice questions, classifying errors, and planning delayed retries.
+site_url: https://rbt-practice-review-workflow.readthedocs.io/
+repo_url: https://github.com/TheKingYouNeed/rbt-practice-questions-study-guide-2026
+repo_name: TheKingYouNeed/rbt-practice-questions-study-guide-2026
+
+theme:
+  name: readthedocs
+
+nav:
+  - Review workflow: index.md
+  - Error-log template: error-log.md
+  - Official references: official-references.md
+
+markdown_extensions:
+  - tables
+  - toc:
+      permalink: true
