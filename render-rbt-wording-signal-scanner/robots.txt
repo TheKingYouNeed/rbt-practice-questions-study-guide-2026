@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://rbt-wording-signal-scanner.onrender.com/sitemap.xml
+Sitemap: https://rbt-wording-signal-scanner.simo-dahmani1.workers.dev/sitemap.xml
