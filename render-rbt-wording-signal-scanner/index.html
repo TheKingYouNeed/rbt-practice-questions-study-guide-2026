@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>RBT Practice Question Wording Signal Scanner</title>
+  <meta name="description" content="A free browser-only study tool that flags negation, quantity, timing, role, and evidence words in fictional RBT practice-question stems.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://rbt-wording-signal-scanner.onrender.com/">
+  <style>
+    :root{--ink:#172237;--muted:#536277;--paper:#fff;--wash:#f5f5f0;--line:#d8ddd9;--green:#155f52;--lime:#d8f26a;--blue:#1567a8;--rose:#c14560;--gold:#9a6200}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);background:var(--wash);font:16px/1.65 system-ui,-apple-system,Segoe UI,sans-serif}
+    a{color:#0b5e9e}header{background:#173d36;color:#fff;padding:62px 20px 54px;position:relative;overflow:hidden}header:after{content:"";position:absolute;width:360px;height:360px;border:70px solid #d8f26a33;border-radius:50%;right:-120px;top:-160px}
+    .wrap{width:min(1060px,calc(100% - 34px));margin:auto;position:relative}.tagline{text-transform:uppercase;letter-spacing:.15em;font-weight:850;font-size:.77rem;color:#dffb89}
+    h1{font-size:clamp(2.45rem,6vw,4.9rem);line-height:1;max-width:900px;margin:.4rem 0 1.15rem}header p{max-width:780px;font-size:1.12rem;color:#e3f4ef}
+    .button{display:inline-block;background:var(--lime);color:#172237;text-decoration:none;font-weight:850;border-radius:8px;padding:11px 17px;margin-top:10px}
+    main{padding:42px 0 76px}.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:clamp(20px,4vw,38px);margin-bottom:34px;box-shadow:0 10px 34px #31443e0d}
+    h2{font-size:clamp(1.55rem,3vw,2.25rem);line-height:1.2;margin:0 0 12px}h3{margin:1.3rem 0 .3rem}.lede{font-size:1.08rem;color:var(--muted)}
+    .signals{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:22px 0}.signals div{padding:14px;border-radius:11px;background:#f4f8f7;border:1px solid #cadbd6}
+    .signals b{display:block;color:var(--green);font-size:1.05rem}.signals span{font-size:.88rem;color:#53645f}
+    .lab{display:grid;grid-template-columns:1.1fr .9fr;gap:22px}.panel{border:1px solid var(--line);border-radius:13px;padding:18px;background:#fbfdfc}
+    label{display:block;font-weight:800;margin:.75rem 0 .35rem}select,textarea,button{font:inherit}select,textarea{width:100%;padding:10px;border:1px solid #aebbb5;border-radius:8px;background:#fff;color:var(--ink)}
+    textarea{min-height:150px;resize:vertical}button{border:0;border-radius:8px;background:var(--green);color:#fff;padding:10px 14px;font-weight:800;cursor:pointer;margin:10px 7px 0 0}button.secondary{background:#e7ecea;color:#233832}
+    .count{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-bottom:14px}.count div{padding:10px 7px;border-radius:9px;text-align:center;background:#eef4f2}.count b{font-size:1.35rem;display:block;color:var(--green)}
+    .results{min-height:150px}.flag{padding:10px 12px;border-radius:8px;margin:8px 0;background:#edf5f2;border-left:5px solid var(--green)}.flag b{display:block}.none{color:var(--muted)}
+    mark{padding:.05em .2em;border-radius:.25em}.neg{background:#ffdce3;color:#8e1c38}.quant{background:#fff0bd;color:#714500}.time{background:#ddebff;color:#064f8e}.role{background:#ddf3e9;color:#0c5d49}.evidence{background:#eee2ff;color:#60329a}
+    .drills{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.drill{padding:18px;border:1px solid var(--line);border-radius:12px;background:#fff}.drill p{color:#46566a}
+    table{width:100%;border-collapse:collapse;margin:18px 0}th,td{border:1px solid var(--line);padding:10px;text-align:left;vertical-align:top}th{background:#edf3f1}
+    .callout{background:#eef9d4;border-left:5px solid #71920d;padding:13px 16px}.sources li{margin:.55rem 0}
+    footer{background:#172f2b;color:#dbeae6;padding:40px 0}footer a{color:#bce8dc}.fine{color:#b8cac5;font-size:.92rem}
+    @media(max-width:800px){.signals,.count{grid-template-columns:1fr 1fr}.lab,.drills{grid-template-columns:1fr}}@media(max-width:460px){.signals,.count{grid-template-columns:1fr}}
+    @media print{header{background:#fff;color:#000;padding:18px 0}.button,.lab button{display:none}.card{box-shadow:none}.wrap{width:100%}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="tagline">Free clean-room study tool</div>
+      <h1>RBT Practice Question Wording Signal Scanner</h1>
+      <p>Flag small words that can change what a fictional practice-question stem asks. The scanner highlights signals; it never supplies an answer and sends no text to a server.</p>
+      <a class="button" href="#scanner">Scan a fictional stem</a>
+    </div>
+  </header>
+  <main class="wrap">
+    <section class="card">
+      <h2>Five wording signals worth locating</h2>
+      <p class="lede">Reading quickly can turn a small qualifier into an invisible one. A signal scan creates a pause between recognizing a topic and deciding what the question actually requires.</p>
+      <div class="signals">
+        <div><b>Negation</b><span>not, except, least, avoid</span></div>
+        <div><b>Quantity</b><span>first, most, all, only</span></div>
+        <div><b>Timing</b><span>before, after, during, immediately</span></div>
+        <div><b>Role</b><span>technician, supervisor, caregiver</span></div>
+        <div><b>Evidence</b><span>observed, recorded, stated, defined</span></div>
+      </div>
+      <p>This is a language-attention aid. A flagged word is not automatically important, and the number of flags does not predict difficulty, quality, or exam performance.</p>
+    </section>
+
+    <section class="card" id="scanner">
+      <h2>Browser-only signal scanner</h2>
+      <p class="lede">Use only fictional, self-written material. Do not paste client information, workplace records, copyrighted question banks, or secure exam content.</p>
+      <div class="lab">
+        <div class="panel">
+          <label for="sample">Fictional sample</label>
+          <select id="sample">
+            <option value="">Choose a sample or write your own</option>
+            <option value="Before the fictional activity begins, the technician notices that the supervisor has not defined one response. Which step should occur first?">Undefined response</option>
+            <option value="During a fictional observation, two events are recorded after the instruction. Which statement most objectively describes only what was observed?">Objective description</option>
+            <option value="A supervisor has already demonstrated the fictional data procedure. The technician is asked to practice the procedure once before using it during a session.">Practice boundary</option>
+            <option value="The fictional note states that four responses occurred, but it does not state the observation duration. Which recorded detail is least sufficient for calculating a rate?">Missing duration</option>
+          </select>
+          <label for="stem">Fictional practice stem</label>
+          <textarea id="stem" placeholder="Write or paste a fictional practice stem..."></textarea>
+          <button id="scan" type="button">Scan wording</button>
+          <button id="clear" class="secondary" type="button">Clear locally</button>
+        </div>
+        <div class="panel">
+          <div class="count" aria-label="Signal totals">
+            <div><b id="c-neg">0</b>negation</div>
+            <div><b id="c-quant">0</b>quantity</div>
+            <div><b id="c-time">0</b>timing</div>
+            <div><b id="c-role">0</b>role</div>
+            <div><b id="c-evidence">0</b>evidence</div>
+          </div>
+          <div id="highlight" class="results none" aria-live="polite">No fictional stem scanned yet.</div>
+          <div id="questions"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>How to use the flags</h2>
+      <table>
+        <thead><tr><th>Signal</th><th>Ask before viewing options</th><th>Common reading slip</th></tr></thead>
+        <tbody>
+          <tr><td>Negation</td><td>Am I selecting the included case or the excluded case?</td><td>Answering the positive version of the prompt.</td></tr>
+          <tr><td>Quantity</td><td>Does the word require one item, a comparison, or a universal claim?</td><td>Treating “most” as “any,” or “first” as “eventually.”</td></tr>
+          <tr><td>Timing</td><td>What must happen before, during, or after the stated event?</td><td>Choosing a plausible action in the wrong sequence.</td></tr>
+          <tr><td>Role</td><td>Who is expected to act, decide, document, or request clarification?</td><td>Selecting an action that belongs to a different role.</td></tr>
+          <tr><td>Evidence</td><td>Which claim is supported by what was stated, observed, recorded, or defined?</td><td>Adding an unstated cause or interpretation.</td></tr>
+        </tbody>
+      </table>
+      <div class="callout"><strong>Two-pass rule:</strong> first mark the wording signal; then explain how it changes the requested task. A highlight without an explanation is only decoration.</div>
+    </section>
+
+    <section class="card">
+      <h2>Six original retrieval drills</h2>
+      <div class="drills">
+        <article class="drill"><h3>1. Positive rewrite</h3><p>Rewrite a fictional negative prompt as a positive prompt. State exactly how the selection rule changes.</p></article>
+        <article class="drill"><h3>2. Timing swap</h3><p>Replace “before” with “after.” Identify which options would become impossible without adding new facts.</p></article>
+        <article class="drill"><h3>3. Quantity ladder</h3><p>Test one self-written stem with “one,” “first,” “most,” and “all.” Explain why each word requires different evidence.</p></article>
+        <article class="drill"><h3>4. Role replacement</h3><p>Swap technician and supervisor in a fictional stem. List the actions that change roles and the facts that do not.</p></article>
+        <article class="drill"><h3>5. Evidence deletion</h3><p>Remove the sentence containing “recorded” or “observed.” Decide whether the remaining stem still supports the same claim.</p></article>
+        <article class="drill"><h3>6. One-line task</h3><p>Finish: “Because the prompt says ___, I must choose an option that ___.” Use only words supported by the stem.</p></article>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>A compact review record</h2>
+      <p>For each missed practice question, save five short fields: the signal you overlooked, the task you initially answered, the task actually requested, the stated evidence that controls the choice, and one clean-room transfer example. This makes the next review session about retrieval rather than answer recognition.</p>
+      <p>Do not copy secure or proprietary question text into the record. Describe the reading mistake in your own words and use a fresh fictional example.</p>
+    </section>
+
+    <section class="card">
+      <h2>Keep official sources in the loop</h2>
+      <p>This page does not define the RBT credential, examination, training, supervision, or professional requirements. Check the current first-party materials maintained by the Behavior Analyst Certification Board.</p>
+      <ul class="sources">
+        <li><a href="https://www.bacb.com/rbt/">BACB Registered Behavior Technician information</a></li>
+        <li><a href="https://www.bacb.com/rbt-test-content-outline-3rd-ed/">RBT Test Content Outline (3rd ed.)</a></li>
+        <li><a href="https://www.bacb.com/rbt-handbook/">BACB RBT Handbook</a></li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>Optional Android practice resource</h2>
+      <p>Dahmani Limited also publishes an optional Android study app. Use any practice tool alongside current official sources, required training, supervision, and independent review of your mistakes.</p>
+      <p><a href="https://play.google.com/store/apps/details?id=com.dahmanilimited.rbtpractice">View RBT Practice Questions 2026 on Google Play</a></p>
+      <p class="fine">No pass, ranking, employment, clinical, or learning outcome is promised.</p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      <strong>Ownership and non-affiliation disclosure</strong>
+      <p>Dahmani Limited created and publishes this educational resource and owns the linked Android app. Neither is affiliated with, approved by, or endorsed by the Behavior Analyst Certification Board (BACB). BACB owns its marks and official materials.</p>
+      <p class="fine">No actual exam items, secure materials, client data, or clinical recommendations are included. Version 1.0 · 2026-07-26.</p>
+    </div>
+  </footer>
+  <script>
+    const groups={
+      neg:{label:"Negation",words:["not","except","least","avoid","never","without"]},
+      quant:{label:"Quantity",words:["first","most","all","only","one","each","every"]},
+      time:{label:"Timing",words:["before","after","during","immediately","already","then","while"]},
+      role:{label:"Role",words:["technician","supervisor","caregiver","client","learner","instructor"]},
+      evidence:{label:"Evidence",words:["observed","recorded","stated","defined","measured","documented","shows"]}
+    };
+    const esc=s=>s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+    const scan=()=>{
+      const raw=document.querySelector("#stem").value.trim(), counts={neg:0,quant:0,time:0,role:0,evidence:0};
+      if(!raw){document.querySelector("#highlight").className="results none";document.querySelector("#highlight").textContent="Add a fictional stem before scanning.";Object.keys(counts).forEach(k=>document.querySelector("#c-"+k).textContent="0");document.querySelector("#questions").innerHTML="";return}
+      let html=esc(raw);
+      const matches=[];
+      Object.entries(groups).forEach(([key,g])=>g.words.forEach(w=>{const re=new RegExp(`\\b${w}\\b`,"gi");const found=raw.match(re)||[];counts[key]+=found.length;if(found.length)matches.push({key,word:w,count:found.length})}));
+      matches.sort((a,b)=>b.word.length-a.word.length).forEach(m=>{html=html.replace(new RegExp(`\\b(${m.word})\\b`,"gi"),`<mark class="${m.key}">$1</mark>`)});
+      Object.keys(counts).forEach(k=>document.querySelector("#c-"+k).textContent=counts[k]);
+      const out=document.querySelector("#highlight");out.className="results";out.innerHTML=html;
+      const present=Object.keys(counts).filter(k=>counts[k]>0);
+      document.querySelector("#questions").innerHTML=present.length?present.map(k=>`<div class="flag"><b>${groups[k].label} signal</b>Explain how the highlighted word changes the task before viewing options.</div>`).join(""):`<div class="flag"><b>No dictionary signals found</b>The prompt may still contain important qualifiers. State the actor, requested task, and controlling evidence in your own words.</div>`;
+    };
+    document.querySelector("#sample").addEventListener("change",e=>{if(e.target.value){document.querySelector("#stem").value=e.target.value;scan()}});
+    document.querySelector("#scan").addEventListener("click",scan);
+    document.querySelector("#clear").addEventListener("click",()=>{document.querySelector("#sample").value="";document.querySelector("#stem").value="";scan()});
+  </script>
+</body>
+</html>
