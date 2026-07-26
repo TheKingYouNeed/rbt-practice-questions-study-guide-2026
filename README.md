@@ -16,6 +16,12 @@ Looking for **RBT practice questions** that help you learn from every answerÃ¢â‚
 
 > **Disclosure:** RBT Practice Questions 2026 is an independent educational product. It is not affiliated with or endorsed by BACB.
 
+## Original practice resources
+
+- [RBT scenario triage checklist](scenario-triage-checklist.md): a six-step
+  worksheet for separating facts, identifying the task, checking role
+  boundaries, and explaining why distractors fail.
+
 ## Quick answer
 
 An **RBT exam practice test** is most useful when you treat it as a diagnostic tool. Complete a set without notes, mark uncertain answers, study the rationale for every option, record the reason for each mistake, and return to missed material later. This turns practice from repeated guessing into a focused study loop.
