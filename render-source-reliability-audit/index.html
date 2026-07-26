@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RBT Practice Resource Source Reliability Audit</title>
+  <meta name="description" content="A free 12-check audit for evaluating the sourcing, scope, transparency, and study value of RBT practice-question resources.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://rbt-practice-source-audit.onrender.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="RBT Practice Resource Source Reliability Audit">
+  <meta property="og:description" content="Score an RBT practice resource against 12 transparent quality checks, then print a practical review plan.">
+  <style>
+    :root {
+      --ink: #14212b;
+      --muted: #566671;
+      --paper: #f6f3ec;
+      --panel: #ffffff;
+      --line: #d9dedc;
+      --teal: #0d6d70;
+      --teal-dark: #075154;
+      --gold: #e3b553;
+      --soft: #e8f3f1;
+      --warn: #8a541a;
+      --shadow: 0 18px 55px rgba(20, 33, 43, .1);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 84% 8%, rgba(227,181,83,.2), transparent 24rem),
+        linear-gradient(180deg, #fbfaf6 0, var(--paper) 38rem);
+      font: 17px/1.65 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    a { color: var(--teal-dark); }
+    a:focus-visible, button:focus-visible, input:focus-visible {
+      outline: 3px solid var(--gold);
+      outline-offset: 3px;
+    }
+    .wrap { width: min(1120px, calc(100% - 32px)); margin: 0 auto; }
+    header {
+      padding: 72px 0 48px;
+      border-bottom: 1px solid rgba(13,109,112,.18);
+    }
+    .eyebrow {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      color: var(--teal-dark);
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      font-size: .78rem;
+    }
+    .eyebrow::before { content: ""; width: 30px; height: 3px; background: var(--gold); }
+    h1, h2, h3 { line-height: 1.12; letter-spacing: -.025em; }
+    h1 { max-width: 880px; margin: 16px 0 18px; font-size: clamp(2.5rem, 6vw, 5rem); }
+    h2 { margin-top: 0; font-size: clamp(1.8rem, 3vw, 2.7rem); }
+    h3 { margin: 0 0 8px; font-size: 1.18rem; }
+    .lede { max-width: 790px; color: var(--muted); font-size: 1.18rem; }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap: 30px;
+      align-items: end;
+    }
+    .hero-note {
+      background: var(--ink);
+      color: #fff;
+      border-radius: 22px;
+      padding: 26px;
+      box-shadow: var(--shadow);
+    }
+    .hero-note strong { color: #ffe6ad; }
+    main { padding: 48px 0 80px; }
+    section { margin: 0 0 64px; }
+    .intro-grid, .method-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 8px 25px rgba(20, 33, 43, .055);
+    }
+    .number {
+      display: inline-grid;
+      place-items: center;
+      width: 36px;
+      height: 36px;
+      margin-bottom: 18px;
+      border-radius: 50%;
+      color: #fff;
+      background: var(--teal);
+      font-weight: 900;
+    }
+    .audit-shell {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 310px;
+      gap: 24px;
+      align-items: start;
+    }
+    .checks { display: grid; gap: 14px; }
+    .check {
+      display: grid;
+      grid-template-columns: 30px 1fr;
+      gap: 14px;
+      align-items: start;
+      padding: 20px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+    }
+    .check input { width: 23px; height: 23px; margin: 3px 0 0; accent-color: var(--teal); }
+    .check p { margin: 5px 0 0; color: var(--muted); font-size: .96rem; }
+    .scorebox {
+      position: sticky;
+      top: 18px;
+      border-radius: 20px;
+      padding: 25px;
+      color: #fff;
+      background: var(--ink);
+      box-shadow: var(--shadow);
+    }
+    .score {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin: 10px 0 16px;
+      font-size: 4.3rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .score span { color: #b9c7cc; font-size: 1.1rem; }
+    .meter { height: 11px; overflow: hidden; background: #3b4a54; border-radius: 999px; }
+    .meter > div { width: 0; height: 100%; background: linear-gradient(90deg, var(--gold), #8cdbbd); transition: width .2s ease; }
+    .verdict { min-height: 78px; color: #e3edf0; }
+    button {
+      width: 100%;
+      border: 0;
+      border-radius: 11px;
+      padding: 13px 16px;
+      cursor: pointer;
+      color: var(--ink);
+      background: #fff;
+      font: inherit;
+      font-weight: 850;
+    }
+    button.secondary { margin-top: 10px; color: #fff; background: transparent; border: 1px solid #71808a; }
+    .matrix { width: 100%; border-collapse: collapse; background: #fff; }
+    .matrix th, .matrix td { padding: 15px; border: 1px solid var(--line); text-align: left; vertical-align: top; }
+    .matrix th { background: var(--soft); }
+    .callout {
+      border-left: 5px solid var(--gold);
+      padding: 22px 25px;
+      background: #fff9eb;
+      color: #604419;
+    }
+    .cta {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: center;
+      padding: 32px;
+      border-radius: 22px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--teal-dark), var(--teal));
+    }
+    .cta h2 { margin-bottom: 8px; }
+    .cta p { margin: 0; color: #daf3f1; }
+    .cta a {
+      display: inline-block;
+      padding: 14px 19px;
+      border-radius: 12px;
+      color: var(--ink);
+      background: #fff;
+      font-weight: 900;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    details { padding: 19px 0; border-bottom: 1px solid var(--line); }
+    summary { cursor: pointer; font-weight: 850; }
+    footer {
+      padding: 36px 0 60px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      font-size: .94rem;
+    }
+    .sources { display: grid; gap: 8px; }
+    @media (max-width: 820px) {
+      .hero-grid, .audit-shell, .cta { grid-template-columns: 1fr; }
+      .intro-grid, .method-grid { grid-template-columns: 1fr; }
+      .scorebox { position: static; }
+      header { padding-top: 44px; }
+    }
+    @media print {
+      body { background: #fff; font-size: 12pt; }
+      header { padding: 20px 0; }
+      .hero-note, .scorebox, .cta { color: #000; background: #fff; box-shadow: none; border: 1px solid #999; }
+      button { display: none; }
+      .audit-shell { grid-template-columns: 1fr; }
+      .scorebox { position: static; }
+      section { break-inside: avoid; margin-bottom: 28px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">Independent study-quality tool</span>
+        <h1>RBT Practice Resource Source Reliability Audit</h1>
+        <p class="lede">A polished question bank can still be a weak study source. Use these 12 checks to examine whether an RBT practice resource shows its sources, respects role and content boundaries, explains its reasoning, and helps you review errors instead of merely collecting scores.</p>
+      </div>
+      <aside class="hero-note">
+        <strong>What this tool does:</strong> organizes a study-resource review.<br><br>
+        <strong>What it does not do:</strong> certify accuracy, judge clinical practice, predict examination results, or replace current BACB materials, required training, or supervision.
+      </aside>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section aria-labelledby="why">
+      <h2 id="why">Why audit a practice resource?</h2>
+      <div class="intro-grid">
+        <article class="card"><span class="number">1</span><h3>Appearance is not evidence</h3><p>Clean graphics, timers, high item counts, and confident explanations do not prove that a resource reflects the current public blueprint. Look for traceable foundations.</p></article>
+        <article class="card"><span class="number">2</span><h3>Explanations shape habits</h3><p>A rationale can teach more than an answer key—but only when it identifies the relevant fact, rule, boundary, and reason competing choices are weaker.</p></article>
+        <article class="card"><span class="number">3</span><h3>Scores hide different problems</h3><p>The same incorrect answer may reflect a missing concept, an overlooked qualifier, a measurement-unit error, or confusion about when to seek direction.</p></article>
+      </div>
+    </section>
+
+    <section aria-labelledby="audit-title">
+      <h2 id="audit-title">The 12-check audit</h2>
+      <p>Check only what you can verify from the resource itself or its clearly linked documentation. “I assume it probably does” is not a verified check.</p>
+      <div class="audit-shell">
+        <div class="checks" id="checks">
+          <label class="check"><input type="checkbox"><span><strong>1. Current outline named</strong><p>The resource identifies the current RBT Test Content Outline edition or provides a clear date and version basis.</p></span></label>
+          <label class="check"><input type="checkbox"><span><strong>2. Official sources reachable</strong><p>Important framework claims point to public first-party BACB pages or documents rather than circular blog citations.</p></span></label>
+          <label class="check"><input type="checkbox"><span><strong>3. Domain coverage is visible</strong><p>You can tell which outline domain or task an item is intended to practise, at least in summaries, filters, or review reports.</p></span></label>
+          <label class="check"><input type="checkbox"><span><strong>4. Original-content boundary stated</strong><p>The publisher does not claim to reveal live, recalled, leaked, or secure examination items and does not imply official access.</p></span></label>
+          <label class="check"><input type="checkbox"><span><strong>5. Role boundaries remain explicit</strong><p>Scenarios distinguish implementing trained procedures from changing plans, diagnosing, interpreting beyond scope, or acting without needed direction.</p></span></label>
+          <label class="check"><input type="checkbox"><span><strong>6. Rationales identify decisive evidence</strong><p>Explanations name the scenario detail that matters, not merely restate the selected option.</p></span></label>
+          <label class="check"><input type="checkbox"><span><strong>7. Distractors receive useful treatment</strong><p>When practical, the resource explains why tempting alternatives do not fit the stated facts, unit, timing, or role boundary.</p></span></label>
+          <label class="check"><input type="checkbox"><span><strong>8. Ambiguity has a correction path</strong><p>There is a visible way to report an unclear item, outdated reference, duplicate, broken rationale, or technical problem.</p></span></label>
+          <label class="check"><input type="checkbox"><span><strong>9. Results are not guaranteed</strong><p>The resource avoids pass guarantees, invented success rates, official endorsement claims, and unsupported ranking language.</p></span></label>
+          <label class="check"><input type="checkbox"><span><strong>10. Ownership and commercial interest disclosed</strong><p>You can identify who publishes the resource and whether a recommendation links to that publisher’s own product.</p></span></label>
+          <label class="check"><input type="checkbox"><span><strong>11. Review data is actionable</strong><p>The resource helps you revisit errors by domain, reason, confidence, or another repair category rather than showing only a total score.</p></span></label>
+          <label class="check"><input type="checkbox"><span><strong>12. Privacy and real-client boundary is clear</strong><p>Study tools do not ask learners to paste confidential client information into practice notes, examples, or support requests.</p></span></label>
+        </div>
+        <aside class="scorebox" aria-live="polite">
+          <div>Your verified checks</div>
+          <div class="score"><b id="score">0</b><span>/ 12</span></div>
+          <div class="meter" aria-hidden="true"><div id="meter"></div></div>
+          <p class="verdict" id="verdict">Start with the source and disclosure checks. A low score is a prompt to investigate—not proof that every item is wrong.</p>
+          <button type="button" onclick="window.print()">Print this audit</button>
+          <button class="secondary" type="button" id="reset">Reset checks</button>
+        </aside>
+      </div>
+    </section>
+
+    <section aria-labelledby="interpret">
+      <h2 id="interpret">Interpret the score without overclaiming</h2>
+      <table class="matrix">
+        <thead><tr><th>Verified checks</th><th>Working interpretation</th><th>Practical next step</th></tr></thead>
+        <tbody>
+          <tr><td>0–4</td><td>Too little information is visible to rely on the resource by itself.</td><td>Confirm the edition, sources, publisher, secure-content boundary, and correction route before investing more study time.</td></tr>
+          <tr><td>5–8</td><td>The resource shows useful foundations but has material transparency or review gaps.</td><td>Use it selectively alongside current official materials. Keep a list of claims or item patterns that need verification.</td></tr>
+          <tr><td>9–10</td><td>Most quality signals are visible and the resource supports structured review.</td><td>Audit a small sample of rationales and deliberately check the two missing criteria.</td></tr>
+          <tr><td>11–12</td><td>The resource demonstrates strong transparency across this checklist.</td><td>Continue checking the quality of individual items. A strong process signal is not a guarantee that every question is flawless.</td></tr>
+        </tbody>
+      </table>
+      <p class="callout"><strong>Important:</strong> this score is a transparency and study-design screen. It is not accreditation, BACB approval, a clinical-quality rating, or a prediction of examination performance.</p>
+    </section>
+
+    <section aria-labelledby="sample">
+      <h2 id="sample">Run a five-item rationale sample</h2>
+      <div class="method-grid">
+        <article class="card"><span class="number">A</span><h3>Choose varied items</h3><p>Select five items from different domains or task areas. Do not cherry-pick only easy items or questions you already answered correctly.</p></article>
+        <article class="card"><span class="number">B</span><h3>Hide the answer first</h3><p>Write the decisive fact, the rule or definition you believe applies, and the role-safe action before viewing the publisher’s rationale.</p></article>
+        <article class="card"><span class="number">C</span><h3>Compare explanation structure</h3><p>Mark whether each rationale addresses the evidence, the governing concept, the best option, and at least one plausible distractor.</p></article>
+        <article class="card"><span class="number">D</span><h3>Verify one claim</h3><p>For each sampled item, verify one important framework claim against a current official public source. Keep the check narrow and traceable.</p></article>
+        <article class="card"><span class="number">E</span><h3>Classify the learning gap</h3><p>Record whether the miss came from knowledge, qualifier reading, measurement units, timing, documentation language, or role boundaries.</p></article>
+        <article class="card"><span class="number">F</span><h3>Write a transfer prompt</h3><p>Change one nonessential detail while preserving the same decision rule. If the reasoning still works, you are practising transfer rather than answer memory.</p></article>
+      </div>
+    </section>
+
+    <section aria-labelledby="red-flags">
+      <h2 id="red-flags">Red flags that deserve a pause</h2>
+      <p>One red flag may be correctable; a pattern should change how much weight you give the resource.</p>
+      <ul>
+        <li>Claims of real, recalled, leaked, or guaranteed examination questions.</li>
+        <li>No visible publisher, ownership statement, version date, or correction route.</li>
+        <li>Explanations that repeatedly say only “A is correct” without identifying the decisive fact.</li>
+        <li>Scenarios that blur implementing a written plan with independently designing or changing it.</li>
+        <li>Outdated domain labels presented as current without an edition notice.</li>
+        <li>Pressure tactics built around invented pass rates, countdowns, rankings, or official endorsement.</li>
+        <li>Requests to upload client-identifying details into public examples or ordinary support messages.</li>
+      </ul>
+    </section>
+
+    <section class="cta" aria-labelledby="optional-app">
+      <div>
+        <h2 id="optional-app">Want additional original RBT practice items?</h2>
+        <p>Dahmani Limited publishes RBT Practice Questions 2026 for Android. The app is optional and commercially owned by the publisher of this audit.</p>
+      </div>
+      <a href="https://play.google.com/store/apps/details?id=com.dahmanilimited.rbtpractice">View the app on Google Play</a>
+    </section>
+
+    <section aria-labelledby="faq">
+      <h2 id="faq">Questions about the audit</h2>
+      <details><summary>Does a 12/12 score prove every practice question is correct?</summary><p>No. It shows that twelve useful transparency and review-design signals are visible. Individual questions still require sound writing, accurate concepts, plausible options, and appropriate role boundaries.</p></details>
+      <details><summary>Should I stop using a resource with a low score?</summary><p>Not automatically. A low score means the resource provides too little evidence to carry your study plan alone. Verify important claims, use current official sources, and treat unexplained items cautiously.</p></details>
+      <details><summary>Can I use this checklist to review a free PDF, course, app, or website?</summary><p>Yes. Apply only the checks that can be verified from the resource and its public documentation. Do not award points for assumptions about unpublished editorial processes.</p></details>
+      <details><summary>Why include commercial disclosure as a quality check?</summary><p>Commercial ownership does not make a resource bad. Clear disclosure helps a learner understand who benefits from a recommendation and evaluate claims with appropriate context.</p></details>
+      <details><summary>Does this page provide clinical or legal guidance?</summary><p>No. It is an educational study-resource audit. Follow current requirements, workplace policies, training, and supervisor direction for real practice.</p></details>
+    </section>
+
+    <section aria-labelledby="sources">
+      <h2 id="sources">Official starting points</h2>
+      <div class="sources">
+        <a href="https://www.bacb.com/rbt/">BACB — Registered Behavior Technician</a>
+        <a href="https://www.bacb.com/rbt-test-content-outline-3rd-ed/">BACB — RBT Test Content Outline (3rd ed.)</a>
+        <a href="https://www.bacb.com/ethics-information/ethics-codes/">BACB — Ethics Codes</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <strong>Publisher disclosure:</strong> This independent educational resource was created and published by Dahmani Limited, owner of the linked Android app. It is not affiliated with, approved by, or endorsed by the Behavior Analyst Certification Board (BACB). It does not reproduce secure examination content, provide clinical or legal advice, replace required training or supervision, certify another resource, or promise examination or employment results. BACB is the owner of its marks and official materials.
+    </div>
+  </footer>
+
+  <script>
+    const boxes = [...document.querySelectorAll('#checks input[type="checkbox"]')];
+    const score = document.getElementById('score');
+    const meter = document.getElementById('meter');
+    const verdict = document.getElementById('verdict');
+    const messages = [
+      [4, 'Investigate the edition, sources, ownership, secure-content boundary, and correction route before relying on this resource.'],
+      [8, 'Useful foundations are visible, but important transparency or review gaps remain. Verify the missing criteria.'],
+      [10, 'Most quality signals are visible. Sample several rationales and investigate the remaining gaps.'],
+      [12, 'Strong transparency signals are visible. Continue checking individual item quality; this is not a guarantee.']
+    ];
+    function update() {
+      const total = boxes.filter(box => box.checked).length;
+      score.textContent = total;
+      meter.style.width = `${(total / boxes.length) * 100}%`;
+      verdict.textContent = messages.find(([max]) => total <= max)[1];
+    }
+    boxes.forEach(box => box.addEventListener('change', update));
+    document.getElementById('reset').addEventListener('click', () => {
+      boxes.forEach(box => { box.checked = false; });
+      update();
+    });
+    update();
+  </script>
+</body>
+</html>
