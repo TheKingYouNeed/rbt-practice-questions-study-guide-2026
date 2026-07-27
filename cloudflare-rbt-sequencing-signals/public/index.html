@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>RBT Practice Question Sequencing Signals Dataset</title>
+  <meta name="description" content="Explore 36 original synthetic annotations for studying first, next, before, after, best-fit, evidence, and role-boundary signals in RBT-style practice material.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://rbt-sequencing-signals.dahmani.me/">
+  <style>
+    :root {
+      --ink: #102a43;
+      --muted: #52677a;
+      --paper: #fbfdfc;
+      --line: #d8e5df;
+      --teal: #087f71;
+      --teal-dark: #065f55;
+      --mint: #e5f6f1;
+      --amber: #f59f00;
+      --navy: #071b2f;
+      --shadow: 0 18px 46px rgba(15, 42, 67, .10);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 90% 0%, rgba(8,127,113,.12), transparent 28rem),
+        linear-gradient(180deg, #f4faf7 0, #fff 32rem);
+      font: 16px/1.65 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    a { color: var(--teal-dark); text-underline-offset: .18em; }
+    a:hover { color: #03483f; }
+    .wrap { width: min(1120px, calc(100% - 32px)); margin-inline: auto; }
+    header { padding: 74px 0 46px; }
+    .eyebrow {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      padding: 7px 12px;
+      border: 1px solid #b8ded3;
+      border-radius: 999px;
+      background: rgba(255,255,255,.72);
+      color: var(--teal-dark);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    h1 {
+      max-width: 900px;
+      margin: 22px 0 18px;
+      color: var(--navy);
+      font-size: clamp(2.25rem, 5.5vw, 4.65rem);
+      line-height: 1.02;
+      letter-spacing: -.055em;
+    }
+    .lede { max-width: 780px; margin: 0; color: var(--muted); font-size: clamp(1.05rem, 2vw, 1.27rem); }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 10px 17px;
+      border: 1px solid var(--teal);
+      border-radius: 11px;
+      font-weight: 800;
+      text-decoration: none;
+    }
+    .button.primary { color: #fff; background: var(--teal); }
+    .button.primary:hover { color: #fff; background: var(--teal-dark); }
+    .button.secondary { background: rgba(255,255,255,.72); }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin: 38px 0 0;
+    }
+    .stat {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255,255,255,.82);
+    }
+    .stat strong { display: block; color: var(--navy); font-size: 1.5rem; line-height: 1.1; }
+    .stat span { color: var(--muted); font-size: .9rem; }
+    section { padding: 52px 0; }
+    h2 { margin: 0 0 14px; color: var(--navy); font-size: clamp(1.7rem, 3vw, 2.45rem); letter-spacing: -.035em; line-height: 1.15; }
+    h3 { color: var(--navy); line-height: 1.25; }
+    .section-intro { max-width: 760px; margin: 0 0 26px; color: var(--muted); }
+    .trace-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .trace-card {
+      min-height: 176px;
+      padding: 19px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: var(--paper);
+      box-shadow: 0 8px 24px rgba(15,42,67,.06);
+    }
+    .trace-card b {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      margin-bottom: 16px;
+      border-radius: 10px;
+      color: #fff;
+      background: var(--teal);
+    }
+    .trace-card strong { display: block; margin-bottom: 6px; }
+    .trace-card p { margin: 0; color: var(--muted); font-size: .92rem; }
+    .explorer-shell {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+    .toolbar {
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) 250px auto;
+      gap: 12px;
+      align-items: end;
+      padding: 20px;
+      color: #fff;
+      background: var(--navy);
+    }
+    label { display: grid; gap: 6px; font-size: .78rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
+    input, select {
+      min-height: 44px;
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid #7492aa;
+      border-radius: 9px;
+      color: var(--ink);
+      background: #fff;
+      font: inherit;
+    }
+    button {
+      min-height: 44px;
+      padding: 9px 14px;
+      border: 1px solid #b8ded3;
+      border-radius: 9px;
+      color: #fff;
+      background: transparent;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    button:hover { background: rgba(255,255,255,.1); }
+    .results-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-size: .9rem;
+    }
+    #cards { display: grid; gap: 12px; padding: 18px; }
+    .record {
+      display: grid;
+      grid-template-columns: 110px minmax(180px, .65fr) 1fr 1fr;
+      gap: 16px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--paper);
+    }
+    .id { color: var(--teal-dark); font-weight: 900; }
+    .family {
+      display: inline-flex;
+      width: fit-content;
+      padding: 4px 8px;
+      border-radius: 999px;
+      color: var(--teal-dark);
+      background: var(--mint);
+      font-size: .74rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+    .record h3 { margin: 7px 0 0; font-size: 1.08rem; }
+    .record h4 { margin: 0 0 6px; color: var(--muted); font-size: .74rem; letter-spacing: .05em; text-transform: uppercase; }
+    .record p { margin: 0; color: var(--muted); font-size: .92rem; }
+    .empty { padding: 42px; text-align: center; color: var(--muted); }
+    .two-col { display: grid; grid-template-columns: 1.1fr .9fr; gap: 22px; align-items: start; }
+    .panel {
+      padding: 25px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+    }
+    .panel ul { padding-left: 1.2rem; }
+    .notice { border-left: 5px solid var(--amber); }
+    footer {
+      margin-top: 40px;
+      padding: 38px 0 46px;
+      color: #c8d8e5;
+      background: var(--navy);
+    }
+    footer a { color: #9fe4d4; }
+    footer p { max-width: 900px; }
+    .small { font-size: .88rem; }
+    @media (max-width: 900px) {
+      .trace-grid { grid-template-columns: repeat(2, 1fr); }
+      .toolbar { grid-template-columns: 1fr 1fr; }
+      .toolbar button { grid-column: 1 / -1; }
+      .record { grid-template-columns: 100px 1fr; }
+      .two-col { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      header { padding-top: 48px; }
+      .stats, .trace-grid, .toolbar, .record { grid-template-columns: 1fr; }
+      .toolbar button { grid-column: auto; }
+      .results-meta { align-items: flex-start; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <header class="wrap">
+    <span class="eyebrow">Open synthetic dataset · 2026</span>
+    <h1>RBT practice question sequencing signals</h1>
+    <p class="lede">Explore 36 original annotations for studying how words such as <em>first</em>, <em>next</em>, <em>before</em>, <em>after</em>, and <em>best</em> change the decision a practice stem is asking you to make.</p>
+    <div class="hero-actions">
+      <a class="button primary" href="#explorer">Explore the annotations</a>
+      <a class="button secondary" href="/rbt-sequencing-signals.csv" download>Download CSV</a>
+      <a class="button secondary" href="/README.md">Read the full guide</a>
+    </div>
+    <div class="stats" aria-label="Dataset summary">
+      <div class="stat"><strong>36</strong><span>synthetic annotations</span></div>
+      <div class="stat"><strong>6</strong><span>signal families</span></div>
+      <div class="stat"><strong>0</strong><span>secure or recalled exam items</span></div>
+    </div>
+  </header>
+
+  <main>
+    <section class="wrap" aria-labelledby="trace-title">
+      <h2 id="trace-title">Use the TRACE audit</h2>
+      <p class="section-intro">TRACE turns an uncertain answer choice into a short, reviewable decision trail. It is a study-analysis framework, not clinical guidance.</p>
+      <div class="trace-grid">
+        <article class="trace-card"><b>T</b><strong>Target the time point</strong><p>Is the stem asking about an immediate, later, or completed step?</p></article>
+        <article class="trace-card"><b>R</b><strong>Read the qualifier</strong><p>Circle the word that controls order, scope, or comparison.</p></article>
+        <article class="trace-card"><b>A</b><strong>Arrange the options</strong><p>Put the two strongest choices into a logical sequence.</p></article>
+        <article class="trace-card"><b>C</b><strong>Check boundaries</strong><p>Remove unsupported assumptions and role-inappropriate actions.</p></article>
+        <article class="trace-card"><b>E</b><strong>Explain the distinction</strong><p>State why one option fits the requested moment better.</p></article>
+      </div>
+    </section>
+
+    <section class="wrap" id="explorer" aria-labelledby="explorer-title">
+      <h2 id="explorer-title">Dataset explorer</h2>
+      <p class="section-intro">Filter by signal family or search across the cue, common reading error, audit question, and role-boundary check.</p>
+      <div class="explorer-shell">
+        <div class="toolbar">
+          <label>Search
+            <input id="search" type="search" placeholder="Try: first, assumption, supervisor">
+          </label>
+          <label>Signal family
+            <select id="family">
+              <option value="">All six families</option>
+            </select>
+          </label>
+          <button id="reset" type="button">Reset filters</button>
+        </div>
+        <div class="results-meta">
+          <span id="count">Loading annotations…</span>
+          <span>Original fictional study patterns only</span>
+        </div>
+        <div id="cards" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="wrap">
+      <div class="two-col">
+        <article class="panel">
+          <h2>Suggested analyses</h2>
+          <ul>
+            <li><strong>Error-family count:</strong> tally the signal family for each missed or uncertain practice item.</li>
+            <li><strong>Near-neighbour comparison:</strong> write two plausible options, then change only the controlling sequence word.</li>
+            <li><strong>Assumption audit:</strong> list every fact an answer requires that the stem never supplies.</li>
+            <li><strong>Revision check:</strong> remove accidental ambiguity so the intended learning objective—not a wording trick—drives the distinction.</li>
+          </ul>
+        </article>
+        <aside class="panel notice">
+          <h2>Study boundaries</h2>
+          <p>This resource does not contain real clients, confidential records, live examination questions, recalled examination questions, or secure examination content.</p>
+          <p>For additional original Android practice, visit <a href="https://play.google.com/store/apps/details?id=com.dahmanilimited.rbtpractice">RBT Practice Questions on Google Play</a>.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="wrap">
+      <div class="panel">
+        <h2>Verify current requirements</h2>
+        <p>Use current official sources for certification, examination, eligibility, and ethics information because requirements can change.</p>
+        <ul>
+          <li><a href="https://www.bacb.com/">Behavior Analyst Certification Board</a></li>
+          <li><a href="https://www.bacb.com/rbt/">RBT certification information</a></li>
+          <li><a href="https://www.bacb.com/ethics-information/">BACB ethics information</a></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <h2 style="color:#fff">Disclosure and limitations</h2>
+      <p>This original dataset and guide are published by <strong>Dahmani Limited</strong>, the owner and publisher of the linked RBT Practice Questions Android app. The dataset, guide, and app are independent educational study aids. They are not affiliated with, endorsed by, or sponsored by the BACB.</p>
+      <p>No pass guarantee, score prediction, certification, supervision, clinical direction, or replacement for required training is provided. Follow your supervisor, applicable policies, and the latest official BACB guidance.</p>
+      <p class="small">Dataset and guide: CC BY 4.0 · Dahmani Limited, 2026.</p>
+    </div>
+  </footer>
+
+  <script>
+    const search = document.querySelector('#search');
+    const family = document.querySelector('#family');
+    const reset = document.querySelector('#reset');
+    const cards = document.querySelector('#cards');
+    const count = document.querySelector('#count');
+    let rows = [];
+
+    function parseCsv(text) {
+      const result = [];
+      let row = [], field = '', quoted = false;
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        const next = text[i + 1];
+        if (char === '"' && quoted && next === '"') { field += '"'; i++; }
+        else if (char === '"') quoted = !quoted;
+        else if (char === ',' && !quoted) { row.push(field); field = ''; }
+        else if ((char === '\n' || char === '\r') && !quoted) {
+          if (char === '\r' && next === '\n') i++;
+          row.push(field); field = '';
+          if (row.some(value => value.length)) result.push(row);
+          row = [];
+        } else field += char;
+      }
+      if (field.length || row.length) { row.push(field); result.push(row); }
+      const [headers, ...data] = result;
+      return data.map(values => Object.fromEntries(headers.map((header, index) => [header, values[index] || ''])));
+    }
+
+    const label = value => value.replaceAll('_', ' ').replace(/\b\w/g, letter => letter.toUpperCase());
+    const escapeHtml = value => value.replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[char]));
+
+    function render() {
+      const query = search.value.trim().toLowerCase();
+      const chosen = family.value;
+      const filtered = rows.filter(row => {
+        const familyMatch = !chosen || row.signal_family === chosen;
+        const queryMatch = !query || Object.values(row).join(' ').toLowerCase().includes(query);
+        return familyMatch && queryMatch;
+      });
+      count.textContent = `${filtered.length} of ${rows.length} annotations`;
+      if (!filtered.length) {
+        cards.innerHTML = '<div class="empty">No annotations match those filters.</div>';
+        return;
+      }
+      cards.innerHTML = filtered.map(row => `
+        <article class="record">
+          <div><div class="id">${escapeHtml(row.record_id)}</div></div>
+          <div><span class="family">${escapeHtml(label(row.signal_family))}</span><h3>${escapeHtml(row.stem_signal)}</h3></div>
+          <div><h4>Common reading error</h4><p>${escapeHtml(row.common_reading_error)}</p></div>
+          <div><h4>Audit question</h4><p>${escapeHtml(row.audit_question)}</p></div>
+        </article>`).join('');
+    }
+
+    fetch('/rbt-sequencing-signals.csv')
+      .then(response => {
+        if (!response.ok) throw new Error('Dataset unavailable');
+        return response.text();
+      })
+      .then(text => {
+        rows = parseCsv(text);
+        [...new Set(rows.map(row => row.signal_family))].sort().forEach(value => {
+          const option = document.createElement('option');
+          option.value = value;
+          option.textContent = label(value);
+          family.append(option);
+        });
+        render();
+      })
+      .catch(() => {
+        count.textContent = 'Dataset could not be loaded';
+        cards.innerHTML = '<div class="empty">Use the CSV download above to access the annotations.</div>';
+      });
+
+    search.addEventListener('input', render);
+    family.addEventListener('change', render);
+    reset.addEventListener('click', () => { search.value = ''; family.value = ''; render(); search.focus(); });
+  </script>
+</body>
+</html>

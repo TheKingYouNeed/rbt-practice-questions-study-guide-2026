@@ -1,0 +1,20 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "rbt-sequencing-signals",
+  "compatibility_date": "2026-07-27",
+  "workers_dev": false,
+  "assets": {
+    "directory": "./cloudflare-rbt-sequencing-signals/public",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  },
+  "routes": [
+    {
+      "pattern": "rbt-sequencing-signals.dahmani.me",
+      "custom_domain": true
+    }
+  ],
+  "observability": {
+    "enabled": false
+  }
+}
