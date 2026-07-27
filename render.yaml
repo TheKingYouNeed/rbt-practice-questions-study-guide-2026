@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: rbt-evidence-mapping-lab
+    runtime: static
+    plan: free
+    rootDir: render-rbt-prompt-evidence-mapping
+    buildCommand: echo Ready
+    staticPublishPath: ./
+    autoDeployTrigger: commit
+    renderSubdomainPolicy: enabled
