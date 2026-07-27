@@ -1,0 +1,565 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RBT Practice Question Worked-Example Fading Planner</title>
+  <meta name="description" content="Build a four-stage practice sequence that gradually removes prompts and adds self-explanation and transfer checks for RBT practice questions.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://rbt-worked-example-fading.tiiny.site/">
+  <style>
+    :root {
+      --ink: #183153;
+      --muted: #5d6c80;
+      --paper: #fffdf8;
+      --line: #d9e1e8;
+      --blue: #1769aa;
+      --blue-dark: #0c4779;
+      --blue-soft: #e8f3fb;
+      --coral: #e85d44;
+      --coral-soft: #fff0ec;
+      --green: #16826c;
+      --green-soft: #e7f6f1;
+      --gold: #b77809;
+      --gold-soft: #fff6d9;
+      --navy: #0b223d;
+      --shadow: 0 18px 48px rgba(24, 49, 83, .12);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 88% 5%, rgba(232, 93, 68, .13), transparent 25rem),
+        radial-gradient(circle at 6% 18%, rgba(23, 105, 170, .12), transparent 27rem),
+        #f7fafc;
+      font: 16px/1.6 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    a { color: var(--blue-dark); text-underline-offset: .2em; }
+    a:hover { color: #062f53; }
+    button, input { font: inherit; }
+    .wrap { width: min(1100px, calc(100% - 32px)); margin-inline: auto; }
+    .site-nav {
+      position: sticky;
+      z-index: 10;
+      top: 0;
+      border-bottom: 1px solid rgba(217, 225, 232, .9);
+      background: rgba(247, 250, 252, .91);
+      backdrop-filter: blur(14px);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 60px;
+      gap: 18px;
+    }
+    .brand { color: var(--navy); font-weight: 900; letter-spacing: -.02em; text-decoration: none; }
+    .nav-links { display: flex; flex-wrap: wrap; gap: 17px; font-size: .9rem; font-weight: 700; }
+    header { padding: 78px 0 55px; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border: 1px solid #b8d9ee;
+      border-radius: 999px;
+      color: var(--blue-dark);
+      background: rgba(255, 255, 255, .8);
+      font-size: .78rem;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    h1 {
+      max-width: 940px;
+      margin: 22px 0 18px;
+      color: var(--navy);
+      font-size: clamp(2.35rem, 5.6vw, 4.8rem);
+      line-height: 1.02;
+      letter-spacing: -.055em;
+    }
+    .lede { max-width: 790px; margin: 0; color: var(--muted); font-size: clamp(1.06rem, 2vw, 1.25rem); }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 10px 17px;
+      border: 1px solid var(--blue);
+      border-radius: 11px;
+      font-weight: 850;
+      text-decoration: none;
+    }
+    .button.primary { color: #fff; background: var(--blue); }
+    .button.primary:hover { color: #fff; background: var(--blue-dark); }
+    .button.secondary { background: rgba(255, 255, 255, .76); }
+    .hero-note {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 38px;
+    }
+    .hero-note div {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, .8);
+    }
+    .hero-note strong { display: block; color: var(--navy); font-size: 1.15rem; }
+    .hero-note span { color: var(--muted); font-size: .9rem; }
+    section { padding: 55px 0; }
+    h2 { margin: 0 0 13px; color: var(--navy); font-size: clamp(1.75rem, 3.4vw, 2.55rem); line-height: 1.13; letter-spacing: -.035em; }
+    h3 { color: var(--navy); line-height: 1.25; }
+    .section-intro { max-width: 800px; margin: 0 0 26px; color: var(--muted); }
+    .stage-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 13px; }
+    .stage-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 250px;
+      padding: 21px;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: var(--paper);
+      box-shadow: 0 8px 24px rgba(24, 49, 83, .06);
+    }
+    .stage-card::after {
+      position: absolute;
+      content: "";
+      right: -28px;
+      bottom: -28px;
+      width: 84px;
+      height: 84px;
+      border-radius: 50%;
+      opacity: .25;
+      background: currentColor;
+    }
+    .stage-card:nth-child(1) { color: var(--blue); }
+    .stage-card:nth-child(2) { color: var(--coral); }
+    .stage-card:nth-child(3) { color: var(--green); }
+    .stage-card:nth-child(4) { color: var(--gold); }
+    .stage-number {
+      display: grid;
+      place-items: center;
+      width: 37px;
+      height: 37px;
+      border-radius: 11px;
+      color: #fff;
+      background: currentColor;
+      font-weight: 900;
+    }
+    .stage-card h3 { margin: 16px 0 8px; }
+    .stage-card p { margin: 0 0 12px; color: var(--muted); font-size: .92rem; }
+    .stage-card small { color: currentColor; font-weight: 800; }
+    .planner {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+    .controls {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      padding: 24px;
+      color: #fff;
+      background: var(--navy);
+    }
+    .control label {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 7px;
+      font-size: .81rem;
+      font-weight: 850;
+      letter-spacing: .03em;
+    }
+    .control output { color: #a7dcff; font-variant-numeric: tabular-nums; }
+    input[type="range"] { width: 100%; accent-color: #60b7ee; }
+    .control small { display: block; margin-top: 6px; color: #bdcada; line-height: 1.35; }
+    .plan-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      padding: 18px 22px;
+      border-bottom: 1px solid var(--line);
+    }
+    .plan-head strong { color: var(--navy); }
+    .copy-button {
+      min-height: 40px;
+      padding: 8px 13px;
+      border: 1px solid var(--blue);
+      border-radius: 9px;
+      color: var(--blue-dark);
+      background: #fff;
+      font-weight: 850;
+      cursor: pointer;
+    }
+    .copy-button:hover { background: var(--blue-soft); }
+    .plan-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
+    .plan-block { min-height: 260px; padding: 22px; border-right: 1px solid var(--line); }
+    .plan-block:last-child { border-right: 0; }
+    .plan-block .count {
+      display: block;
+      margin: 10px 0 3px;
+      color: var(--navy);
+      font-size: 2.8rem;
+      font-weight: 950;
+      line-height: 1;
+      letter-spacing: -.05em;
+    }
+    .plan-block .label { color: var(--muted); font-size: .84rem; }
+    .plan-block ul { margin: 18px 0 0; padding-left: 1.1rem; color: var(--muted); font-size: .9rem; }
+    .plan-block li + li { margin-top: 7px; }
+    .meter { height: 6px; margin-top: 16px; border-radius: 99px; background: #e8edf2; overflow: hidden; }
+    .meter span { display: block; height: 100%; width: 50%; background: var(--blue); transition: width .25s ease; }
+    .worked-example {
+      display: grid;
+      grid-template-columns: .8fr 1.2fr;
+      gap: 20px;
+      align-items: start;
+    }
+    .panel {
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: #fff;
+    }
+    .panel h3 { margin-top: 0; }
+    .panel p { color: var(--muted); }
+    .question-shell { border-top: 5px solid var(--coral); }
+    .question-shell ol { padding-left: 1.25rem; color: var(--muted); }
+    .rationale {
+      padding: 15px;
+      border-radius: 12px;
+      background: var(--blue-soft);
+      color: var(--blue-dark);
+    }
+    .decision-list { display: grid; gap: 10px; margin-top: 18px; }
+    .decision {
+      display: grid;
+      grid-template-columns: 94px 1fr;
+      gap: 12px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+    }
+    .decision strong { color: var(--blue-dark); font-size: .83rem; }
+    .decision span { color: var(--muted); font-size: .9rem; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .checklist { padding-left: 1.2rem; }
+    .checklist li + li { margin-top: 10px; }
+    .boundary { border-left: 5px solid var(--coral); background: var(--coral-soft); }
+    .source-list { display: grid; gap: 11px; margin-top: 18px; }
+    .source-list a {
+      display: block;
+      padding: 13px 15px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fff;
+      font-weight: 750;
+    }
+    footer { margin-top: 40px; padding: 42px 0 48px; color: #c7d2df; background: var(--navy); }
+    footer strong { color: #fff; }
+    footer a { color: #a7dcff; }
+    footer p { max-width: 930px; }
+    .small { font-size: .87rem; }
+    .status { min-height: 1.5em; color: var(--green); font-size: .84rem; font-weight: 800; }
+    @media (max-width: 900px) {
+      .stage-grid, .plan-grid { grid-template-columns: 1fr 1fr; }
+      .plan-block:nth-child(2) { border-right: 0; }
+      .plan-block:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+      .controls, .worked-example { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 620px) {
+      .nav-links { display: none; }
+      header { padding-top: 52px; }
+      .hero-note, .stage-grid, .plan-grid, .two-col { grid-template-columns: 1fr; }
+      .plan-block { border-right: 0; border-bottom: 1px solid var(--line); }
+      .plan-block:last-child { border-bottom: 0; }
+      .plan-head { align-items: flex-start; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="site-nav" aria-label="Primary navigation">
+    <div class="wrap nav-inner">
+      <a class="brand" href="#top">Fading Planner</a>
+      <div class="nav-links">
+        <a href="#method">Method</a>
+        <a href="#planner">Planner</a>
+        <a href="#example">Example</a>
+        <a href="#sources">Sources</a>
+      </div>
+    </div>
+  </nav>
+
+  <header id="top">
+    <div class="wrap">
+      <span class="eyebrow">Original study-planning resource</span>
+      <h1>Remove the support, not the reasoning.</h1>
+      <p class="lede">Use this worked-example fading planner to turn a set of RBT practice questions into a deliberate four-stage sequence: model the reasoning, retain only useful cues, require self-explanation, then test transfer.</p>
+      <div class="hero-actions">
+        <a class="button primary" href="#planner">Build a sequence</a>
+        <a class="button secondary" href="#example">See a worked example</a>
+      </div>
+      <div class="hero-note" aria-label="Resource boundaries">
+        <div><strong>Planning tool</strong><span>Allocates practice items across four support levels.</span></div>
+        <div><strong>No secure content</strong><span>Uses an invented formatting example, not exam material.</span></div>
+        <div><strong>No pass promise</strong><span>A study aid cannot guarantee examination results.</span></div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="method">
+      <div class="wrap">
+        <h2>A four-stage fading method</h2>
+        <p class="section-intro">The goal is not to make every question harder at once. It is to remove one kind of support at a time while keeping the reasoning process visible and reviewable.</p>
+        <div class="stage-grid">
+          <article class="stage-card">
+            <span class="stage-number">1</span>
+            <h3>Full rationale map</h3>
+            <p>Show the relevant cue, the governing idea, why one response fits, and why alternatives do not.</p>
+            <small>Highest support</small>
+          </article>
+          <article class="stage-card">
+            <span class="stage-number">2</span>
+            <h3>Cue-only prompt</h3>
+            <p>Keep a short prompt such as “sequence,” “source,” or “role boundary,” but hide the full rationale.</p>
+            <small>Reduced support</small>
+          </article>
+          <article class="stage-card">
+            <span class="stage-number">3</span>
+            <h3>Self-explanation</h3>
+            <p>Require a written or spoken explanation before revealing the prepared rationale or feedback.</p>
+            <small>Active retrieval</small>
+          </article>
+          <article class="stage-card">
+            <span class="stage-number">4</span>
+            <h3>Transfer check</h3>
+            <p>Use a new item with different surface details and ask which reasoning step still applies.</p>
+            <small>Lowest support</small>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="planner">
+      <div class="wrap">
+        <h2>Build your practice sequence</h2>
+        <p class="section-intro">Choose the number of items, current confidence, and desired challenge. The planner recommends an allocation; it does not score clinical competence or predict exam performance.</p>
+        <div class="planner">
+          <div class="controls">
+            <div class="control">
+              <label for="items">Practice items <output id="itemsOut">12</output></label>
+              <input id="items" type="range" min="8" max="40" value="12" step="1">
+              <small>Total items available for this study sequence.</small>
+            </div>
+            <div class="control">
+              <label for="confidence">Current confidence <output id="confidenceOut">2 / 5</output></label>
+              <input id="confidence" type="range" min="1" max="5" value="2" step="1">
+              <small>Use recent practice evidence, not a guess about exam readiness.</small>
+            </div>
+            <div class="control">
+              <label for="challenge">Challenge level <output id="challengeOut">3 / 5</output></label>
+              <input id="challenge" type="range" min="1" max="5" value="3" step="1">
+              <small>Higher values move more items toward independent transfer.</small>
+            </div>
+          </div>
+          <div class="plan-head">
+            <div>
+              <strong id="planSummary">12-item balanced-support sequence</strong>
+              <div class="status" id="copyStatus" aria-live="polite"></div>
+            </div>
+            <button class="copy-button" id="copyPlan" type="button">Copy text plan</button>
+          </div>
+          <div class="plan-grid" id="planGrid">
+            <article class="plan-block">
+              <strong>Stage 1</strong>
+              <span class="count" id="count0">4</span>
+              <span class="label">full rationale-map items</span>
+              <div class="meter"><span id="meter0"></span></div>
+              <ul><li>Mark the decisive cue.</li><li>Trace the reasoning step.</li><li>Compare every alternative.</li></ul>
+            </article>
+            <article class="plan-block">
+              <strong>Stage 2</strong>
+              <span class="count" id="count1">3</span>
+              <span class="label">cue-only items</span>
+              <div class="meter"><span id="meter1"></span></div>
+              <ul><li>Keep one short cue.</li><li>Hide the full rationale.</li><li>Reveal feedback after choice.</li></ul>
+            </article>
+            <article class="plan-block">
+              <strong>Stage 3</strong>
+              <span class="count" id="count2">3</span>
+              <span class="label">self-explanation items</span>
+              <div class="meter"><span id="meter2"></span></div>
+              <ul><li>Answer without cues.</li><li>Explain before checking.</li><li>Log the missed reasoning step.</li></ul>
+            </article>
+            <article class="plan-block">
+              <strong>Stage 4</strong>
+              <span class="count" id="count3">2</span>
+              <span class="label">transfer-check items</span>
+              <div class="meter"><span id="meter3"></span></div>
+              <ul><li>Change surface details.</li><li>Name the stable principle.</li><li>Return to support if needed.</li></ul>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="example">
+      <div class="wrap">
+        <h2>Worked example: fade the format, preserve the logic</h2>
+        <p class="section-intro">This invented example demonstrates the editorial method only. It is deliberately generic and is not copied, reconstructed, or recalled from a certification examination.</p>
+        <div class="worked-example">
+          <aside class="panel question-shell">
+            <h3>Invented editorial prompt</h3>
+            <p>A learner reviews a practice item and notices that two options could be true in different circumstances. What should the learner examine first?</p>
+            <ol>
+              <li>The option with the longest wording</li>
+              <li>The exact qualifier and time order in the prompt</li>
+              <li>The option seen most recently</li>
+              <li>A personal assumption not stated in the prompt</li>
+            </ol>
+            <div class="rationale"><strong>Reasoning focus:</strong> distinguish evidence in the prompt from wording length, recency, or an unstated assumption.</div>
+          </aside>
+          <div class="panel">
+            <h3>How support changes</h3>
+            <div class="decision-list">
+              <div class="decision"><strong>Full map</strong><span>Underline “first,” identify time order as the decisive cue, and compare all four alternatives.</span></div>
+              <div class="decision"><strong>Cue only</strong><span>Show only: “Which words determine order?” The learner supplies the rest.</span></div>
+              <div class="decision"><strong>Explain</strong><span>Hide the cue. Require a one-sentence reason before revealing the prepared feedback.</span></div>
+              <div class="decision"><strong>Transfer</strong><span>Use a new invented prompt in which “best supported” makes evidence source—not order—the decisive cue.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap two-col">
+        <article class="panel">
+          <h2>Review the sequence, not just the score</h2>
+          <ul class="checklist">
+            <li><strong>Record the reasoning error.</strong> “Missed the qualifier” is more actionable than “got item 7 wrong.”</li>
+            <li><strong>Restore support deliberately.</strong> If transfer breaks down, return to cue-only or full-map work for that reasoning family.</li>
+            <li><strong>Vary surface details.</strong> A genuine transfer check should not merely repeat the same wording.</li>
+            <li><strong>Use current official sources.</strong> Independently confirm requirements and examination information with the credentialing body.</li>
+          </ul>
+        </article>
+        <aside class="panel boundary">
+          <h2>Scope and safety boundary</h2>
+          <p>This resource is educational and organizational. It does not provide clinical direction, supervision, competency assessment, eligibility advice, or a pass guarantee. Practice performance is not a substitute for required training, supervision, or current official requirements.</p>
+          <p>Do not upload or reproduce confidential client information, secure examination content, or proprietary question-bank material when using this planning method.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section id="sources">
+      <div class="wrap">
+        <h2>Official references and optional practice</h2>
+        <p class="section-intro">Use the official sources below for current requirements. The app link is an optional third-party practice resource and is clearly separated from those official references.</p>
+        <div class="two-col">
+          <article class="panel">
+            <h3>Official BACB sources</h3>
+            <div class="source-list">
+              <a href="https://www.bacb.com/rbt/" target="_blank" rel="noopener">Registered Behavior Technician page</a>
+              <a href="https://www.bacb.com/rbt-handbook/" target="_blank" rel="noopener">RBT Handbook</a>
+              <a href="https://www.bacb.com/rbt-test-content-outline/" target="_blank" rel="noopener">RBT Test Content Outline</a>
+            </div>
+          </article>
+          <article class="panel">
+            <h3>Optional Android practice resource</h3>
+            <p>For learners who want an additional way to work through practice material, view <a href="https://play.google.com/store/apps/details?id=com.dahmanilimited.rbtpractice">RBT Practice Questions on Google Play</a>. Review the store listing, device compatibility, and current app details before deciding whether it fits your study plan.</p>
+            <p class="small"><strong>Disclosure:</strong> Dahmani Limited created this independent planning resource and owns the linked RBT Practice Questions app. This page is promotional educational content. Neither the page nor the app is affiliated with, endorsed by, or sponsored by the Behavior Analyst Certification Board (BACB). RBT and BACB are referenced only to describe the subject area and official information sources.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p><strong>RBT Practice Question Worked-Example Fading Planner</strong></p>
+      <p>Original educational resource by Dahmani Limited. No secure examination content is used. No clinical, training, supervision, eligibility, or exam-outcome claim is made.</p>
+      <p class="small">Method version 1.0 · Published July 2026 · © 2026 Dahmani Limited</p>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      const items = document.querySelector('#items');
+      const confidence = document.querySelector('#confidence');
+      const challenge = document.querySelector('#challenge');
+      const outputs = {
+        items: document.querySelector('#itemsOut'),
+        confidence: document.querySelector('#confidenceOut'),
+        challenge: document.querySelector('#challengeOut')
+      };
+      const counts = [0, 1, 2, 3].map(i => document.querySelector(`#count${i}`));
+      const meters = [0, 1, 2, 3].map(i => document.querySelector(`#meter${i}`));
+      const summary = document.querySelector('#planSummary');
+      const copyStatus = document.querySelector('#copyStatus');
+      let current = [4, 3, 3, 2];
+
+      function allocate(total, weights) {
+        const raw = weights.map(weight => weight * total);
+        const base = raw.map(Math.floor);
+        let remaining = total - base.reduce((sum, value) => sum + value, 0);
+        const rank = raw
+          .map((value, index) => ({ index, fraction: value - base[index] }))
+          .sort((a, b) => b.fraction - a.fraction);
+        for (let i = 0; i < remaining; i++) base[rank[i].index] += 1;
+        return base;
+      }
+
+      function update() {
+        const total = Number(items.value);
+        const c = Number(confidence.value);
+        const d = Number(challenge.value);
+        const independence = Math.max(0, Math.min(1, ((c - 1) + (d - 1)) / 8));
+        const low = [0.42, 0.29, 0.19, 0.10];
+        const high = [0.14, 0.20, 0.30, 0.36];
+        const weights = low.map((value, index) => value * (1 - independence) + high[index] * independence);
+        current = allocate(total, weights);
+        outputs.items.value = total;
+        outputs.confidence.value = `${c} / 5`;
+        outputs.challenge.value = `${d} / 5`;
+        const supportLabel = independence < .34 ? 'high-support' : independence > .66 ? 'independence-forward' : 'balanced-support';
+        summary.textContent = `${total}-item ${supportLabel} sequence`;
+        current.forEach((value, index) => {
+          counts[index].textContent = value;
+          meters[index].style.width = `${Math.max(6, (value / total) * 100)}%`;
+        });
+        copyStatus.textContent = '';
+      }
+
+      async function copyPlan() {
+        const text = [
+          summary.textContent,
+          `Stage 1 — full rationale map: ${current[0]} item(s)`,
+          `Stage 2 — cue only: ${current[1]} item(s)`,
+          `Stage 3 — self-explanation: ${current[2]} item(s)`,
+          `Stage 4 — transfer check: ${current[3]} item(s)`,
+          'Review note: record the missed reasoning step and restore support when needed.'
+        ].join('\n');
+        try {
+          await navigator.clipboard.writeText(text);
+          copyStatus.textContent = 'Plan copied.';
+        } catch {
+          copyStatus.textContent = 'Copy was unavailable; select the counts above manually.';
+        }
+      }
+
+      [items, confidence, challenge].forEach(input => input.addEventListener('input', update));
+      document.querySelector('#copyPlan').addEventListener('click', copyPlan);
+      update();
+    })();
+  </script>
+</body>
+</html>

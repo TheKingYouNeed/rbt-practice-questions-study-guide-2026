@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://rbt-worked-example-fading.tiiny.site/sitemap.xml
