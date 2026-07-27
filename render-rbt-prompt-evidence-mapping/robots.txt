@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://rbt-evidence-mapping-lab.onrender.com/sitemap.xml
