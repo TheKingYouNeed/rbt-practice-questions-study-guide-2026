@@ -21,6 +21,9 @@ Looking for **RBT practice questions** that help you learn from every answer√¢‚Ç
 - [RBT scenario triage checklist](scenario-triage-checklist.md): a six-step
   worksheet for separating facts, identifying the task, checking role
   boundaries, and explaining why distractors fail.
+- [RBT concept-pair contrast map](concept-pair-contrast-map.html): a five-row
+  browser-only worksheet for comparing two study concepts by task, evidence,
+  output, boundary, and non-example.
 
 ## Quick answer
 
